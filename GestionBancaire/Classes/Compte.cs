@@ -85,6 +85,7 @@ namespace GestionBancaire.Classes
             command.Dispose();
             Configuration.connection.Close();
             //chercher les opérations du compte
+            c.Operations = Operation.GetOperationsByCompte(c.Id);
             return c;
         }
     }
