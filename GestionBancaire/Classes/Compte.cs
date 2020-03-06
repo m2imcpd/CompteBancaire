@@ -12,7 +12,7 @@ namespace GestionBancaire.Classes
         private int clientId;
         private string numero;
         private List<Operation> operations;
-        private static SqlCommand command; 
+        protected static SqlCommand command; 
 
         public int Id { get => id; set => id = value; }
         public decimal Solde { get => solde; }
@@ -62,7 +62,7 @@ namespace GestionBancaire.Classes
             return result;
         }
 
-        public bool AjouterOperation(Operation operation)
+        public virtual bool  AjouterOperation(Operation operation)
         {
             Operations.Add(operation);
             solde += operation.Montant;
