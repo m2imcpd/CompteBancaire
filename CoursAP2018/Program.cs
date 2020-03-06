@@ -3,6 +3,8 @@ using CoursAP2018.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CoursAP2018
 {
@@ -619,108 +621,157 @@ namespace CoursAP2018
             //reader.Close();
             //connection.Close();
 
-            string choix;
-            do
+            //string choix;
+            //do
+            //{
+            //    Console.WriteLine("1- Créer un contact");
+            //    Console.WriteLine("2- Modifier un contact");
+            //    Console.WriteLine("3- Supprimer un contact");
+            //    Console.WriteLine("4- Liste des contacts");
+            //    choix = Console.ReadLine();
+            //    Contact contact;
+            //    int searchContactId;
+            //    switch (choix)
+            //    {
+            //        case "1":
+            //            contact = new Contact();
+            //            Console.Write("Nom : ");
+            //            contact.Nom = Console.ReadLine();
+            //            Console.Write("Prénom : ");
+            //            contact.Prenom = Console.ReadLine();
+            //            if(contact.Save())
+            //            {
+            //                string email;
+            //                do
+            //                {
+            //                    Console.Write("Email : ");
+            //                    email = Console.ReadLine();
+            //                    if(email != "0")
+            //                    {
+            //                        Email e = new Email
+            //                        {
+            //                            Mail = email,
+            //                            ContactId = contact.Id
+            //                        };
+            //                        e.Save();
+            //                    }
+            //                } while (email != "0");
+
+            //                Console.WriteLine($"Contact ajouté avec id : {contact.Id}");
+
+            //            }
+            //            else
+            //            {
+            //                Console.WriteLine("Erreur serveur");
+            //            }
+            //            break;
+            //        case "2":
+            //            Console.Write("L'id du contact à modifier : ");
+            //            searchContactId = Convert.ToInt32(Console.ReadLine());
+            //            contact = Contact.GetContactById(searchContactId);
+            //            if(contact == null)
+            //            {
+            //                Console.WriteLine("Aucun contact avec cet id");
+            //            }
+            //            else
+            //            {
+            //                Console.Write("Nom : ");
+            //                contact.Nom = Console.ReadLine();
+            //                Console.Write("Prénom : ");
+            //                contact.Prenom = Console.ReadLine();
+            //                if(contact.Update())
+            //                {
+            //                    Console.WriteLine("Contact mis à jour");
+            //                }
+            //                else
+            //                {
+            //                    Console.WriteLine("Erreur serveur");
+            //                }
+            //            }
+            //            break;
+            //        case "3":
+            //            Console.Write("L'id du contact à supprimer : ");
+            //            searchContactId = Convert.ToInt32(Console.ReadLine());
+            //            contact = Contact.GetContactById(searchContactId);
+            //            if (contact == null)
+            //            {
+            //                Console.WriteLine("Aucun contact avec cet id");
+            //            }
+            //            else
+            //            {   
+            //                if (contact.Delete())
+            //                {
+            //                    Console.WriteLine("Contact supprimé");
+            //                }
+            //                else
+            //                {
+            //                    Console.WriteLine("Erreur serveur");
+            //                }
+            //            }
+            //            break;
+            //        case "4":
+            //            foreach(Contact c in Contact.GetContacts())
+            //            {
+            //                Console.WriteLine(c);
+            //                Console.WriteLine("Emails : ");
+            //                foreach(Email e in c.Emails)
+            //                {
+            //                    Console.WriteLine(e);
+            //                }
+            //                Console.WriteLine("------------");
+            //            }
+            //            break;
+            //    }
+            //} while (choix != "0");
+            #endregion
+
+            #region cours thread
+            //Thread t1 = new Thread(() =>
+            //{
+            //    for(int i=1; i < 100; i++)
+            //    {
+            //        Console.WriteLine("A");
+            //    }
+            //});
+
+            //Thread t2 = new Thread(() =>
+            //{
+            //    for (int i = 1; i < 100; i++)
+            //    {
+            //        Console.WriteLine("B");
+            //    }
+            //});
+            //t1.Start();
+            //t2.Start();
+
+            //Task t = new Task(() =>
+            //{
+            //    for (int i = 1; i < 10; i++)
+            //    {
+            //        Console.WriteLine("task");
+            //    }
+            //});
+            //t.Start();
+            //Console.WriteLine("En cours d'execution ");
+            //Console.WriteLine(t.Status);
+            //t.Wait();
+
+            //Console.WriteLine(t.Status);
+            //Console.WriteLine("Fin d'execution");
+
+            Task<string> t = new Task<string>(() =>
             {
-                Console.WriteLine("1- Créer un contact");
-                Console.WriteLine("2- Modifier un contact");
-                Console.WriteLine("3- Supprimer un contact");
-                Console.WriteLine("4- Liste des contacts");
-                choix = Console.ReadLine();
-                Contact contact;
-                int searchContactId;
-                switch (choix)
-                {
-                    case "1":
-                        contact = new Contact();
-                        Console.Write("Nom : ");
-                        contact.Nom = Console.ReadLine();
-                        Console.Write("Prénom : ");
-                        contact.Prenom = Console.ReadLine();
-                        if(contact.Save())
-                        {
-                            string email;
-                            do
-                            {
-                                Console.Write("Email : ");
-                                email = Console.ReadLine();
-                                if(email != "0")
-                                {
-                                    Email e = new Email
-                                    {
-                                        Mail = email,
-                                        ContactId = contact.Id
-                                    };
-                                    e.Save();
-                                }
-                            } while (email != "0");
+                Thread.Sleep(2000);
+                return "Bonjour";
+            });
+            t.Start();
+            Console.WriteLine("En cours d'execution ");
+            Console.WriteLine(t.Status);
+            t.Wait();
 
-                            Console.WriteLine($"Contact ajouté avec id : {contact.Id}");
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("Erreur serveur");
-                        }
-                        break;
-                    case "2":
-                        Console.Write("L'id du contact à modifier : ");
-                        searchContactId = Convert.ToInt32(Console.ReadLine());
-                        contact = Contact.GetContactById(searchContactId);
-                        if(contact == null)
-                        {
-                            Console.WriteLine("Aucun contact avec cet id");
-                        }
-                        else
-                        {
-                            Console.Write("Nom : ");
-                            contact.Nom = Console.ReadLine();
-                            Console.Write("Prénom : ");
-                            contact.Prenom = Console.ReadLine();
-                            if(contact.Update())
-                            {
-                                Console.WriteLine("Contact mis à jour");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Erreur serveur");
-                            }
-                        }
-                        break;
-                    case "3":
-                        Console.Write("L'id du contact à supprimer : ");
-                        searchContactId = Convert.ToInt32(Console.ReadLine());
-                        contact = Contact.GetContactById(searchContactId);
-                        if (contact == null)
-                        {
-                            Console.WriteLine("Aucun contact avec cet id");
-                        }
-                        else
-                        {   
-                            if (contact.Delete())
-                            {
-                                Console.WriteLine("Contact supprimé");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Erreur serveur");
-                            }
-                        }
-                        break;
-                    case "4":
-                        foreach(Contact c in Contact.GetContacts())
-                        {
-                            Console.WriteLine(c);
-                            Console.WriteLine("Emails : ");
-                            foreach(Email e in c.Emails)
-                            {
-                                Console.WriteLine(e);
-                            }
-                            Console.WriteLine("------------");
-                        }
-                        break;
-                }
-            } while (choix != "0");
+            Console.WriteLine(t.Status);
+            Console.WriteLine("Fin d'execution");
+            Console.WriteLine(t.Result);
             #endregion
         }
 
