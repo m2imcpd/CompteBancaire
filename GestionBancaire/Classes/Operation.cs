@@ -55,5 +55,9 @@ namespace GestionBancaire.Classes
             Configuration.connection.Close();
             return liste;
         }
+        public override string ToString()
+        {
+            return $"Montant : {Montant}, Date Opération : {DateOperation}";
+        }
     }
 }

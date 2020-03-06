@@ -88,5 +88,10 @@ namespace GestionBancaire.Classes
             c.Operations = Operation.GetOperationsByCompte(c.Id);
             return c;
         }
+
+        public override string ToString()
+        {
+            return $"Numéro de compte : {Numero}, Solde : {Solde}";
+        }
     }
 }

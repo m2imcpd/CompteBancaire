@@ -41,8 +41,13 @@ namespace GestionBancaire.Classes
                         ActionCreationCompte();
                         break;
                     case "2":
+                        ActionEffectuerDepot();
                         break;
                     case "3":
+                        ActionEffectuerRetrait();
+                        break;
+                    case "4":
+                        ActionAfficherOperations();
                         break;
                 }
             } while (choix != "0");
@@ -62,11 +67,91 @@ namespace GestionBancaire.Classes
                         ActionCreationCompteCourant();
                         break;
                     case "2":
+                        
                         break;
                     case "3":
                         break;
                 }
             } while (choix != "0");
+        }
+
+        private void ActionEffectuerDepot()
+        {
+            Console.Write("Saisir le numéro de compte : ");
+            string numero = Console.ReadLine();
+            Compte compte = Compte.GetCompteByNumero(numero);
+            if(compte == null)
+            {
+                Console.WriteLine("Aucun compte avec ce numéro : ");
+            }
+            else
+            {
+                Console.Write("Montant du dépot : ");
+                decimal depot = Convert.ToDecimal(Console.ReadLine());
+                Operation operation = new Operation
+                {
+                    CompteId = compte.Id,
+                    Montant = depot,
+                    DateOperation = DateTime.Now
+                };
+                operation.Save();
+                compte.AjouterOperation(operation);
+                Console.WriteLine("Opération éfféctuée : ");
+                Console.WriteLine(compte);
+            }
+        }
+
+        private void ActionEffectuerRetrait()
+        {
+            Console.Write("Saisir le numéro de compte : ");
+            string numero = Console.ReadLine();
+            Compte compte = Compte.GetCompteByNumero(numero);
+            if (compte == null)
+            {
+                Console.WriteLine("Aucun compte avec ce numéro : ");
+            }
+            else
+            {
+                Console.Write("Montant du retrait : ");
+                decimal retrait = Convert.ToDecimal(Console.ReadLine());
+                if(retrait <= compte.Solde)
+                {
+                    Operation operation = new Operation
+                    {
+                        CompteId = compte.Id,
+                        Montant = retrait * -1,
+                        DateOperation = DateTime.Now
+                    };
+                    operation.Save();
+                    compte.AjouterOperation(operation);
+                    Console.WriteLine("Opération éfféctuée : ");
+                    Console.WriteLine(compte);
+                }
+                else
+                {
+                    Console.WriteLine("Opération impossible");
+                }
+                
+            }
+        }
+
+        private void ActionAfficherOperations()
+        {
+            Console.Write("Saisir le numéro de compte : ");
+            string numero = Console.ReadLine();
+            Compte compte = Compte.GetCompteByNumero(numero);
+            if (compte == null)
+            {
+                Console.WriteLine("Aucun compte avec ce numéro : ");
+            }
+            else
+            {
+                Console.WriteLine(compte);
+                foreach(Operation o in compte.Operations)
+                {
+                    Console.WriteLine(o);
+                }
+            }
         }
 
         private void ActionCreationCompteCourant()
