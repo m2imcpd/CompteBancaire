@@ -11,6 +11,10 @@ namespace GestionBancaire.Classes
         
         public double Taux { get => taux; set => taux = value; }
 
+        public CompteEpargne() : base()
+        {
+            
+        }
         public CompteEpargne(int id, string n, int ci, decimal s, double t) : base(id, n, ci, s)
         {
             Taux = t;
@@ -63,7 +67,8 @@ namespace GestionBancaire.Classes
             command.Dispose();
             Configuration.connection.Close();
             //chercher les opérations du compte
-            c.Operations = Operation.GetOperationsByCompte(c.Id);
+            if (c != null)
+                c.Operations = Operation.GetOperationsByCompte(c.Id);
             return c;
         }
     }

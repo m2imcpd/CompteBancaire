@@ -25,7 +25,7 @@ namespace GestionBancaire.Classes
             Operations = new List<Operation>();
         }
 
-        public Compte(int id, string n, int ci, decimal s)
+        public Compte(int id, string n, int ci, decimal s) : this()
         {
             Id = id;
             numero = n;
@@ -85,7 +85,8 @@ namespace GestionBancaire.Classes
             command.Dispose();
             Configuration.connection.Close();
             //chercher les opérations du compte
-            c.Operations = Operation.GetOperationsByCompte(c.Id);
+            if (c != null)
+                c.Operations = Operation.GetOperationsByCompte(c.Id);
             return c;
         }
 

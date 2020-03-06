@@ -11,6 +11,10 @@ namespace GestionBancaire.Classes
 
         public decimal CoutOperation { get => coutOperation; set => coutOperation = value; }
 
+        public ComptePayant() : base()
+        {
+
+        }
         public ComptePayant(int id, string n, int ci, decimal s, decimal coperation) : base(id, n, ci, s)
         {
             CoutOperation = coperation;
@@ -69,7 +73,8 @@ namespace GestionBancaire.Classes
             command.Dispose();
             Configuration.connection.Close();
             //chercher les opérations du compte
-            c.Operations = Operation.GetOperationsByCompte(c.Id);
+            if(c != null)
+                c.Operations = Operation.GetOperationsByCompte(c.Id);
             return c;
         }
     }

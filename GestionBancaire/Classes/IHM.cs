@@ -67,9 +67,10 @@ namespace GestionBancaire.Classes
                         ActionCreationCompteCourant();
                         break;
                     case "2":
-                        
+                        ActionCreationCompteEpargne();
                         break;
                     case "3":
+                        ActionCreationComptePayant();
                         break;
                 }
             } while (choix != "0");
@@ -79,8 +80,10 @@ namespace GestionBancaire.Classes
         {
             Console.Write("Saisir le numéro de compte : ");
             string numero = Console.ReadLine();
-            Compte compte = Compte.GetCompteByNumero(numero);
-            if(compte == null)
+            Compte compte = null;
+            compte = Compte.GetCompteByNumero(numero);
+
+            if (compte == null)
             {
                 Console.WriteLine("Aucun compte avec ce numéro : ");
             }
@@ -156,10 +159,56 @@ namespace GestionBancaire.Classes
 
         private void ActionCreationCompteCourant()
         {
+            Client client = CreationClient();
+
+            Compte compte = new Compte()
+            {
+                ClientId = client.Id
+            };
+            if(compte.Save())
+            {
+                Console.WriteLine("Compte crée avec le numéro de compte " + compte.Numero);
+            }
+        }
+
+        private void ActionCreationComptePayant()
+        {
+            Client client = CreationClient();
+            Console.Write("Cout operation : ");
+            decimal cOperation = Convert.ToDecimal(Console.ReadLine());
+            ComptePayant compte = new ComptePayant()
+            {
+                ClientId = client.Id,
+                CoutOperation = cOperation
+            };
+            if (compte.Save())
+            {
+                Console.WriteLine("Compte crée avec le numéro de compte " + compte.Numero);
+            }
+        }
+
+        private void ActionCreationCompteEpargne()
+        {
+            Client client = CreationClient();
+            Console.Write("Taux : ");
+            double taux = Convert.ToDouble(Console.ReadLine());
+            CompteEpargne compte = new CompteEpargne()
+            {
+                ClientId = client.Id,
+                Taux = taux
+            };
+            if (compte.Save())
+            {
+                Console.WriteLine("Compte crée avec le numéro de compte " + compte.Numero);
+            }
+        }
+
+        private Client CreationClient()
+        {
             Console.Write("Téléphone du client : ");
             string telephone = Console.ReadLine();
             Client client = Client.GetClientByTelephone(telephone);
-            if(client != null)
+            if (client != null)
             {
                 Console.WriteLine(client);
             }
@@ -181,15 +230,7 @@ namespace GestionBancaire.Classes
                     Console.WriteLine(client);
                 }
             }
-
-            Compte compte = new Compte()
-            {
-                ClientId = client.Id
-            };
-            if(compte.Save())
-            {
-                Console.WriteLine("Compte crée avec le numéro de compte " + compte.Numero);
-            }
+            return client;
         }
     }
 
