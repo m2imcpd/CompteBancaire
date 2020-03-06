@@ -18,7 +18,7 @@ namespace GestionBancaire.Classes
         public string Nom { get => nom; set => nom = value; }
         public string Prenom { get => prenom; set => prenom = value; }
         public string Telephone { get => telephone; set {
-                Regex r = new Regex(@"^0[1-9]{1}[.-\s]?([0-9]{2}){4}$");
+                Regex r = new Regex(@"^0[1-9]{1}[.-/s]?([0-9]{2}){4}$");
                 if(r.IsMatch(value))
                 {
                     telephone = value;
@@ -67,6 +67,11 @@ namespace GestionBancaire.Classes
             command.Dispose();
             Configuration.connection.Close();
             return c;
+        }
+
+        public override string ToString()
+        {
+            return $"Nom : {Nom}, Prénom : {Prenom}, Telephone : {Telephone}";
         }
     }
 }

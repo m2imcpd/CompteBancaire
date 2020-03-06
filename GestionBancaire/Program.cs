@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GestionBancaire.Classes;
+using System;
 
 namespace GestionBancaire
 {
@@ -6,7 +7,7 @@ namespace GestionBancaire
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IHM ihm = new IHM();
         }
     }
 }
